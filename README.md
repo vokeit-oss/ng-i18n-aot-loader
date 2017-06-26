@@ -85,6 +85,15 @@ As this now is an observable the loader-config needs to be sligthly adjusted so 
 ```
 
 
+## Options
+| Option            | Type    | Explanation |
+|-------------------|---------|------------------------------------------------------------|
+| enabled           | boolean | Whether the loader should render HTML or not.              |
+| localeBinding     | string  | Name of your component's property that holds the locale.<br />When using an observable don't forget to specify as such:<br />e.g. `locale$ \| async` |
+| translationFiles  | array   | Paths of all your locale files to render.                  |
+| translationFormat | string  | Format of the translation files as used by angular:<br />xlf / xliff, xlf2 / xliff2, xmb, xtb |
+
+
 ## Known caveats
 As `ng-switch` on the used `ng-containers` removes the dom entirely, angular may (think to) detect expression changes after the view has been checked.
 This simply is a timing problem, I didn't find a solid workaround for this until now.
