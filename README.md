@@ -20,61 +20,69 @@ You can also use e.g. the ng-xi18n tool from angular-cli to generate the transla
 
 ## How to use it
 Install the package and define it as a pre-loader in your webpack config:
-    module: {
-        rules: [
-            {
-                enforce: 'pre',
-                test:    /\.html$/,
-                use:     [
-                    {
-                        loader:  'actra-ng-i18n-loader',
-                        options: {
-                            enabled:            true,
-                            localeBinding:      'locale',
-                            translationFiles:   glob.sync('/path/to/src/locales/**/messages.*.xlf'),
-                            translationFormat: 'xliff'
-                        }
+```
+module: {
+    rules: [
+        {
+            enforce: 'pre',
+            test:    /\.html$/,
+            use:     [
+                {
+                    loader:  'actra-ng-i18n-loader',
+                    options: {
+                        enabled:            true,
+                        localeBinding:      'locale',
+                        translationFiles:   glob.sync('/path/to/src/locales/**/messages.*.xlf'),
+                        translationFormat: 'xliff'
                     }
-                ],
-                include: [
-                    '/path/to/src'
-                ],
-                exclude: [
-                    '/path/to/src/index.html'
-                ]
-            },
-            // your other loaders...
-        ]
-    }
+                }
+            ],
+            include: [
+                '/path/to/src'
+            ],
+            exclude: [
+                '/path/to/src/index.html'
+            ]
+        },
+        // your other loaders...
+    ]
+}
+```
 
 In every component that has a translatable template you now need to specify the public property `locale` in order for the `ng-switch` to fire:
-    @Component({
-        // ...
-    })
-    export class MyComponent {
-        public locale: string = 'en_US';
-    }
+```
+@Component({
+    // ...
+})
+export class MyComponent {
+    public locale: string = 'en_US';
+}
+```
 
 To actually switch the locale, the component has to be notified of changes to the locale, e.g. by subscribing to a service, useing a redux-store or whatever you like.
 In my test-project I used redux with it's `@select()`-syntax and subscribed my components like so:
-    @Component({
-        // ...
-    })
-    export class MyComponent {
-        @select(['application', 'locale']) public locale$: Observable<string>;
-    }
+```
+@Component({
+    // ...
+})
+export class MyComponent {
+    @select(['application', 'locale']) public locale$: Observable<string>;
+}
+```
 
 As this now is an observable the loader-config needs to be sligthly adjusted so the `localeBinding` is recognized as async:
-    // ...
-        use: [
-            {
-                loader:  'actra-ng-i18n-loader',
-                options: {
-                    localeBinding: 'locale$ | async'
-                }
+```
+// ...
+    use: [
+        {
+            loader:  'actra-ng-i18n-loader',
+            options: {
+                localeBinding: 'locale$ | async'
             }
-        ]
-    // ...
+        }
+    ]
+// ...
+```
 
 
 ## Known caveats
