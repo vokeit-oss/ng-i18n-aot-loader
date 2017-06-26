@@ -3,7 +3,16 @@
     "description":  "angular i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
     "license":      "MIT",
     "version":      "0.0.1",
-    "author":       "Gabriel Schuster - actra.development",
+    "author":       {
+        "name":  "Gabriel Schuster - actra.development",
+        "email": "opensource@actra.de",
+        "url":   "http://www.actra.de/velopment"
+    },
+    "bugs":         {
+        "url":   "https://github.com/actra-development/actra-ng-i18n-loader/issues",
+        "email": "opensource@actra.de"
+    },
+    "main":         "index.js",
     "dependencies": {
         "loader-utils":      "^1.0.2",
         "object-assign":     "^4.1.0",
@@ -11,11 +20,12 @@
         "@angular/core":     "^4.1.0",
         "@angular/compiler": "^4.1.0"
     },
-    "scripts":      {
-        "publish-patch": "npm version patch && git push && git push --tags && npm publish"
-    },
     "repository":   {
         "type": "git",
         "url":  "git@github.com:actra-development/actra-ng-i18n-loader.git"
+    },
+    "homepage":     "https://github.com/actra-development/actra-ng-i18n-loader#readme",
+    "scripts":      {
+        "test": "echo \"Error: no test specified\" && exit 1"
     }
 }
