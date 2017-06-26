@@ -20,7 +20,7 @@ You can also use e.g. the ng-xi18n tool from angular-cli to generate the transla
 
 ## How to use it
 Install the package `npm install @actra-development/actra-ng-i18n-loader` and define it as a pre-loader in your webpack config:
-```
+```js
 module: {
     rules: [
         {
@@ -50,7 +50,7 @@ module: {
 ```
 
 In every component that has a translatable template you now need to specify the public property `locale` in order for the `ng-switch` to fire:
-```
+```js
 @Component({
     // ...
 })
@@ -61,7 +61,7 @@ export class MyComponent {
 
 To actually switch the locale, the component has to be notified of changes to the locale, e.g. by subscribing to a service, useing a redux-store or whatever you like.  
 In my test-project I used redux with it's `@select()`-syntax and subscribed my components like so:
-```
+```js
 @Component({
     // ...
 })
@@ -71,7 +71,7 @@ export class MyComponent {
 ```
 
 As this now is an observable the loader-config needs to be sligthly adjusted so the `localeBinding` is recognized as async:
-```
+```js
 // ...
     use: [
         {
