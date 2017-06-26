@@ -1,20 +1,20 @@
 # actra-ng-i18n-loader [Proof-Of-Concept]
 angular i18n pre-loader for webpack 2 to support AOT with dynamic locale changes
 
-When building angular with AOT, at the time of writing, applications needs to be built as separate bundles for each locale.
+When building angular with AOT, at the time of writing, applications needs to be built as separate bundles for each locale.  
 To circumvent this "problem" you may use this pre-loader until the angular team has implemented a clean solution.
 
 
 ## What it does
-The loader modifies the application's HTML before it get's passed to angular's compiler by rendering it for each locale and wrapping all translations into `ng-container`s with `ng-switch`.
+The loader modifies the application's HTML before it get's passed to angular's compiler by rendering it for each locale and wrapping all translations into `ng-container`s with `ng-switch`.  
 If you're using `ng-content` or `router-outlet` inside your templates those get filtered out and replaced by a template reference injected to the end of the HTML because they may only occur once per
-document but would occur multiple times (your number of locales + 1) after modification.
+document but would occur multiple times (your number of locales + 1) after modification.  
 All bindings and contexts stay intact and there's no need to do special magic to your code.
 
 
 ## Compatibility to angular syntax and tools
-There's no need to learn **any** new syntax or tools.
-The loader uses plain angular i18n-syntax, so just tag your HTML with `i18n` or `i18n-<attributeName>` attributes.
+There's no need to learn **any** new syntax or tools.  
+The loader uses plain angular i18n-syntax, so just tag your HTML with `i18n` or `i18n-<attributeName>` attributes.  
 You can also use e.g. the ng-xi18n tool from angular-cli to generate the translation sources.
 
 
@@ -59,7 +59,7 @@ export class MyComponent {
 }
 ```
 
-To actually switch the locale, the component has to be notified of changes to the locale, e.g. by subscribing to a service, useing a redux-store or whatever you like.
+To actually switch the locale, the component has to be notified of changes to the locale, e.g. by subscribing to a service, useing a redux-store or whatever you like.  
 In my test-project I used redux with it's `@select()`-syntax and subscribed my components like so:
 ```
 @Component({
@@ -95,6 +95,6 @@ As this now is an observable the loader-config needs to be sligthly adjusted so 
 
 
 ## Known caveats
-As `ng-switch` on the used `ng-containers` removes the dom entirely, angular may (think to) detect expression changes after the view has been checked.
-This simply is a timing problem, I didn't find a solid workaround for this until now.
+As `ng-switch` on the used `ng-containers` removes the dom entirely, angular may (think to) detect expression changes after the view has been checked.  
+This simply is a timing problem, I didn't find a solid workaround for this until now.  
 As those console messages are disabled for production builds by angular just forget about them.
