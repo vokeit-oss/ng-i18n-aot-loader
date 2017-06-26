@@ -19,7 +19,7 @@ You can also use e.g. the ng-xi18n tool from angular-cli to generate the transla
 
 
 ## How to use it
-Install the package and define it as a pre-loader in your webpack config:
+Install the package `npm install @actra-development/actra-ng-i18n-loader` and define it as a pre-loader in your webpack config:
 ```
 module: {
     rules: [
@@ -28,7 +28,7 @@ module: {
             test:    /\.html$/,
             use:     [
                 {
-                    loader:  'actra-ng-i18n-loader',
+                    loader:  '@actra-development/actra-ng-i18n-loader',
                     options: {
                         enabled:            true,
                         localeBinding:      'locale',
@@ -75,7 +75,7 @@ As this now is an observable the loader-config needs to be sligthly adjusted so 
 // ...
     use: [
         {
-            loader:  'actra-ng-i18n-loader',
+            loader:  '@actra-development/actra-ng-i18n-loader',
             options: {
                 localeBinding: 'locale$ | async'
             }
