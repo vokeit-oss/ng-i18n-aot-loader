@@ -2,7 +2,7 @@
     "name":         "@actra-development/actra-ng-i18n-loader",
     "description":  "angular i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
     "license":      "MIT",
-    "version":      "0.0.2",
+    "version":      "0.0.3",
     "author":       {
         "name":  "Gabriel Schuster - actra.development",
         "email": "opensource@actra.de",
