@@ -1,31 +1,49 @@
 {
-    "name":         "@actra-development-oss/ng-i18n-aot-loader",
-    "description":  "angular 4 i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
-    "license":      "MIT",
-    "version":      "0.0.5",
-    "author":       {
+    "name":             "@actra-development-oss/ng-i18n-aot-loader",
+    "description":      "angular 4 i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
+    "keywords":         [
+        "angular",
+        "aot",
+        "i18n",
+        "webpack"
+    ],
+    "license":          "MIT",
+    "version":          "0.0.5",
+    "author":           {
         "name":  "Gabriel Schuster - actra.development",
         "email": "opensource@actra.de",
         "url":   "http://www.actra.de/velopment"
     },
-    "bugs":         {
+    "homepage":         "https://github.com/actra-development-oss/ng-i18n-aot-loader#readme",
+    "repository":       {
+        "type": "git",
+        "url":  "git@github.com:actra-development-oss/ng-i18n-aot-loader.git"
+    },
+    "bugs":             {
         "url":   "https://github.com/actra-development-oss/ng-i18n-aot-loader/issues",
         "email": "opensource@actra.de"
     },
-    "main":         "index.js",
-    "dependencies": {
+    "publishConfig":    {
+        "registry": "https://registry.npmjs.com/",
+        "access":   "public"
+    },
+    "dependencies":     {
         "loader-utils":      "^1.0.2",
         "object-assign":     "^4.1.0",
         "fs":                "^0.0.2",
         "@angular/core":     "^4.1.0",
         "@angular/compiler": "^4.1.0"
     },
-    "repository":   {
-        "type": "git",
-        "url":  "git@github.com:actra-development-oss/ng-i18n-aot-loader.git"
-    },
-    "homepage":     "https://github.com/actra-development-oss/ng-i18n-aot-loader#readme",
-    "scripts":      {
+    "devDependencies":  {},
+    "peerDependencies": {},
+    "files":            [
+        "index.js",
+        "LICENSE",
+        "package.json",
+        "README.md"
+    ],
+    "main":             "index.js",
+    "scripts":          {
         "test": "echo \"Error: no test specified\" && exit 1"
     }
 }
