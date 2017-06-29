@@ -1,4 +1,4 @@
-# actra-ng-i18n-loader [Proof-Of-Concept]
+# ng-i18n-aot-loader [Proof-Of-Concept]
 angular i18n pre-loader for webpack 2 to support AOT with dynamic locale changes
 
 When building angular with AOT, at the time of writing, applications need to be built as separate bundles for each locale.  
@@ -79,7 +79,7 @@ You can also still use e.g. the ng-xi18n tool from angular-cli to generate the t
 
 
 ## How to use it
-Install the package `npm install @actra-development/actra-ng-i18n-loader` and define it as a pre-loader in your webpack config:
+Install the package `npm install @actra-development-oss/ng-i18n-aot-loader` and define it as a pre-loader in your webpack config:
 ```js
 module: {
     rules: [
@@ -88,7 +88,7 @@ module: {
             test:    /\.html$/,
             use:     [
                 {
-                    loader:  '@actra-development/actra-ng-i18n-loader',
+                    loader:  '@actra-development-oss/ng-i18n-aot-loader',
                     options: {
                         enabled:            true,
                         localeBinding:      'locale',
@@ -136,7 +136,7 @@ As this now is an observable the loader-config needs to be sligthly adjusted so 
 // ...
     use: [
         {
-            loader:  '@actra-development/actra-ng-i18n-loader',
+            loader:  '@actra-development-oss/ng-i18n-aot-loader',
             options: {
                 localeBinding: 'locale$ | async'
             }
