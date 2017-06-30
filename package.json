@@ -8,7 +8,7 @@
         "webpack"
     ],
     "license":          "MIT",
-    "version":          "0.0.5",
+    "version":          "1.0.0",
     "author":           {
         "name":  "Gabriel Schuster - actra.development",
         "email": "opensource@actra.de",
@@ -34,16 +34,51 @@
         "@angular/core":     "^4.1.0",
         "@angular/compiler": "^4.1.0"
     },
-    "devDependencies":  {},
-    "peerDependencies": {},
+    "devDependencies":  {
+        "mkdirp":      "0.5.1",
+        "ncp":         "2.0.0",
+        "npm-run-all": "4.0.2",
+        "rimraf":      "2.6.1",
+        "rollup":      "0.43.0",
+        "uglify-js":   "3.0.21",
+        "yarn":        "0.24.6"
+    },
+    "peerDependencies": {
+        "@angular/core": "^4.1.0"
+    },
     "files":            [
-        "index.js",
-        "LICENSE",
-        "package.json",
-        "README.md"
+        "dist/index.js",
+        "dist/index.umd.js",
+        "dist/index.umd.min.js",
+        "dist/CHANGELOG.md",
+        "dist/LICENSE",
+        "dist/package.json",
+        "dist/README.md"
     ],
     "main":             "index.js",
     "scripts":          {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test":      "echo \"Error: no test specified\" && exit 1",
+        
+        
+        "build":           "yarn run run-s -- build:clean build:copy",
+        "build:clean":     "yarn run rimraf -- ./dist && yarn run mkdirp -- ./dist",
+        "build:copy":      "yarn run run-s -- build:copy-1 build:copy-2 build:copy-3 build:copy-4 build:copy-5",
+        "build:copy-1":    "yarn run ncp -- ./package.json ./dist/package.json",
+        "build:copy-2":    "yarn run ncp -- ./CHANGELOG.md ./dist/CHANGELOG.md",
+        "build:copy-3":    "yarn run ncp -- ./index.js ./dist/index.js",
+        "build:copy-4":    "yarn run ncp -- ./LICENSE ./dist/LICENSE",
+        "build:copy-5":    "yarn run ncp -- ./README.md ./dist/README.md",
+        
+        
+        "publishToNpmjs": "yarn run build && yarn publish ./dist --access public --registry https://registry.npmjs.com/",
+        
+        
+        "mkdirp":    "./node_modules/.bin/mkdirp",
+        "ncp":       "./node_modules/.bin/ncp",
+        "rimraf":    "./node_modules/.bin/rimraf",
+        "rollup":    "./node_modules/.bin/rollup",
+        "run-s":     "./node_modules/.bin/run-s",
+        "uglifyjs":  "./node_modules/.bin/uglifyjs",
+        "yarn":      "./node_modules/.bin/yarn"
     }
 }

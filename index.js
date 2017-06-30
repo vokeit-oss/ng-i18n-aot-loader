@@ -37,7 +37,7 @@ const htmlParser  = new compiler.HtmlParser();
  */
 function getLoaderConfig(context) {
     let query     = loaderUtils.getOptions(context) || {};
-    let configKey = query.config || 'ng2I18nLoader';
+    let configKey = query.config || 'ngI18nAotLoader';
     let config    = context.options && context.options.hasOwnProperty(configKey) ? context.options[configKey] : {};
 
     delete query.config;
@@ -46,23 +46,23 @@ function getLoaderConfig(context) {
 }
 
 
+function random4Chars() {
+   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+};
+
+
+/**
+ * Uniq ID generator for automatically inserted template references
+ */
+function uniqId() {
+    return (random4Chars() + random4Chars() + random4Chars() + random4Chars() + random4Chars() + random4Chars() + random4Chars() + random4Chars());
+}
+
+
 /**
  * Recursive HTML visitor to render real HTML contents from parsed files
  */
 class Visitor extends compiler.RecursiveVisitor {
-    s4() {
-       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-    
-    
-    /**
-     * Uniq ID generator for automatically inserted template references
-     */
-    uniqId() {
-        return (this.s4() + this.s4() + this.s4() + this.s4() + this.s4() + this.s4() + this.s4() + this.s4());
-    }
-    
-    
     /**
      * Set if templates should be generated
      */
@@ -96,7 +96,7 @@ class Visitor extends compiler.RecursiveVisitor {
         
         if(this.hasOwnProperty('templateGeneration') && 'router-outlet' === ast.name.toLowerCase() || 'ng-content' === ast.name.toLowerCase()) {
             if(!!this.templateGeneration) {
-                this.templateIds.push(this.uniqId());
+                this.templateIds.push(uniqId());
                 this.templates.push('<ng-template #automaticallyGeneratedTemplate' + this.templateIds[this.templateElementCount] + '>' + element + '</ng-template>');
             }
             
@@ -165,30 +165,26 @@ module.exports = function(content) {
     }
     
     let config  = getLoaderConfig(this);
-    let binding = config.hasOwnProperty('localeBinding') && 'string' === typeof config.localeBinding && config.localeBinding.length ? config.localeBinding : 'i18nLocaleBindingProperty';
-    let result  = content;
     let formats = {'xliff': 'Xliff', 'xlf': 'Xliff', 'xliff2': 'Xliff2', 'xlf2': 'Xliff2', 'xmb': 'Xmb', 'xtb': 'Xtb'};
     
     if(!config.hasOwnProperty('enabled') || !config.enabled) {
-        return result;
+        return content;
     }
     
-    if('i18nLocaleBindingProperty' === binding) {
-        console.warn('It seems there was no "localeBinding" specified in the config, falling back to default "i18nLocaleBindingProperty".');
-    }
-    
-    if(!config.hasOwnProperty('translationFiles') || !Array.isArray(config.translationFiles) || 1 > config.translationFiles.length) {
+    if(!config.hasOwnProperty('translationFiles') || !Array.isArray(config.translationFiles) ||
+       1 > config.translationFiles.filter(function(file) { return !!('string' === typeof file && 0 < file.length); }).length) {
         console.warn('It seems there were no "translationFiles" specified in the config, skipping.');
         
-        return result;
+        return content;
     }
     
     if(!config.hasOwnProperty('translationFormat') || 'string' !== typeof config.translationFormat || !(config.translationFormat.toLowerCase() in formats)) {
         console.warn('It seems there was no (valid) "translationFormat" (supported: ' + Object.keys(formats).join(', ') + ') specified in the config, skipping.');
         
-        return result;
+        return content;
     }
     
+    let result     = content;
     let format     = config.translationFormat.toLowerCase();
     let serializer = new compiler[formats[format]]();
     let containers = '';
@@ -205,6 +201,7 @@ module.exports = function(content) {
     let locales            = [];
     let visitor            = new Visitor();
     let templatesGenerated = false;
+    let identifier         = uniqId();
     
     config.translationFiles.forEach(function(file) {
         let translationContent = fs.readFileSync(file);
@@ -225,7 +222,7 @@ module.exports = function(content) {
                     visitor.generateTemplates(false);
                 }
                 
-                containers += '<ng-container *ngSwitchCase="\'' + String(locale) + '\'">' + compiler.visitAll(visitor, parsed.rootNodes).join('') + '</ng-container>';
+                containers += '<ng-container *ngI18nAot="\'' + identifier + '\'; locale: \'' + String(locale) + '\'">' + compiler.visitAll(visitor, parsed.rootNodes).join('') + '</ng-container>';
             }
             else {
                 console.error(parsed.errors);
@@ -247,9 +244,10 @@ module.exports = function(content) {
                 visitor.generateTemplates(false);
             }
             
-            containers += '<ng-container *ngSwitchDefault>' + compiler.visitAll(visitor, parsed.rootNodes).join('') + '</ng-container>';
-            
-            result = '<ng-container [ngSwitch]="' + binding + '">' + containers + '</ng-container>' + visitor.getTemplates(true);
+            result =
+                containers +
+                '<ng-container *ngI18nAot="\'' + identifier + '\'; isDefault: true">' + compiler.visitAll(visitor, parsed.rootNodes).join('') + '</ng-container>' +
+                visitor.getTemplates(true);
         }
         else {
             console.error(parsed.errors);

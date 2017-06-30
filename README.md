@@ -6,10 +6,11 @@ To circumvent this "problem" you may use this pre-loader until the angular team 
 
 
 ## What it does
-The loader modifies the application's HTML before it get's passed to angular's compiler by rendering it for each locale and wrapping all translations into `ng-container`s with `ng-switch`.  
+The loader modifies the application's HTML before it get's passed to angular's compiler by rendering it for each locale and wrapping all translations into `ng-container`s.  
 If you're using `ng-content` or `router-outlet` inside your templates those get filtered out and replaced by a template reference injected to the end of the HTML because they may only occur once per
 document but would occur multiple times (your number of locales + 1) after modification.  
-All bindings and contexts stay intact and there's no need to do special magic to your code.
+All bindings and contexts stay intact and there's no need to do special magic to your code.  
+To actually change the displayed locale, a service is provided (by `@actra-development-oss/ng-i18n-aot-module`) that you may include in your component(s) to call `setLocale('new_locale')` on it.
 
 
 ## JIT and AOT
@@ -17,7 +18,7 @@ The loader works for both JIT and AOT builds and thus also with hot module repla
 Just keep in mind that when changing translatable texts inside your templates you have to extract the translations again as their message ids change.  
 This is also true when not using this loader - it's the way angular calculates the message ids.  
 So the process would be: `change html` => `extract texts` => `update translations` => `rebuild html`.  
-Depending on your dev setup webpack may to the HTML rebuild automatically for you when the translation files change.  
+Depending on your dev setup webpack may do the HTML rebuild automatically for you when the translation files change.  
 If not you can trigger a HTML rebuild for individual files simply by updating the desired file, e.g. adding a new-line, and saving it for webpack to catch the change.
 
 
@@ -39,33 +40,31 @@ Given this (partial) source:
 
 The loader would produce this result, given one locale "de-DE" translation file:
 ```html
-<ng-container [ngSwitch]="locale">
-    <ng-container *ngSwitchCase="'de-DE'">
-        <div class="mat-app-background">
-            <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate1"></ng-container>
-            
-            <md-chip-list>
-                <md-chip>Erster Chip</md-chip>
-                <md-chip color="primary" title="Zweiter Chip :)">Zweiter Chip</md-chip>
-                <md-chip color="accent">Dritter Chip</md-chip>
-            </md-chip-list>
-            
-            <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate2"></ng-container>
-        </div>
-    </ng-container>
-    <ng-container *ngSwitcDefault>
-        <div class="mat-app-background">
-            <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate1"></ng-container>
-            
-            <md-chip-list>
-                <md-chip>First chip</md-chip>
-                <md-chip color="primary" title="Second chip :-)">Second chip</md-chip>
-                <md-chip color="accent">Third chip</md-chip>
-            </md-chip-list>
-            
-            <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate2"></ng-container>
-        </div>
-    </ng-container>
+<ng-container *ngI18nAot="'automaticallyGeneratedUniqueIdPerHtmlFile'; locale: 'de-DE'">
+    <div class="mat-app-background">
+        <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate1"></ng-container>
+        
+        <md-chip-list>
+            <md-chip>Erster Chip</md-chip>
+            <md-chip color="primary" title="Zweiter Chip :)">Zweiter Chip</md-chip>
+            <md-chip color="accent">Dritter Chip</md-chip>
+        </md-chip-list>
+        
+        <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate2"></ng-container>
+    </div>
+</ng-container>
+<ng-container *ngI18nAot="'automaticallyGeneratedUniqueIdPerHtmlFile'; isDefault: true">
+    <div class="mat-app-background">
+        <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate1"></ng-container>
+        
+        <md-chip-list>
+            <md-chip>First chip</md-chip>
+            <md-chip color="primary" title="Second chip :-)">Second chip</md-chip>
+            <md-chip color="accent">Third chip</md-chip>
+        </md-chip-list>
+        
+        <ng-container *ngTemplateOutlet="automaticallyGeneratedTemplate2"></ng-container>
+    </div>
 </ng-container>
 <ng-template #automaticallyGeneratedTemplate1><ng-content></ng-content></ng-template>
 <ng-template #automaticallyGeneratedTemplate2><router-outlet></router-outlet></ng-template>
@@ -79,7 +78,7 @@ You can also still use e.g. the ng-xi18n tool from angular-cli to generate the t
 
 
 ## How to use it
-Install the package `npm install @actra-development-oss/ng-i18n-aot-loader` and define it as a pre-loader in your webpack config:
+Install the packages `npm install @actra-development-oss/ng-i18n-aot-loader @actra-development-oss/ng-i18n-aot-module` and define the loader as a pre-loader in your webpack config:
 ```js
 module: {
     rules: [
@@ -91,8 +90,7 @@ module: {
                     loader:  '@actra-development-oss/ng-i18n-aot-loader',
                     options: {
                         enabled:            true,
-                        localeBinding:      'locale',
-                        translationFiles:   glob.sync('/path/to/src/locales/**/messages.*.xlf'),
+                        translationFiles:   ['/path/to/src/locales/messages.de.xlf'],
                         translationFormat: 'xliff'
                     }
                 }
@@ -108,41 +106,72 @@ module: {
     ]
 }
 ```
-NB: I'm using `glob.sync()` for the option `translationFiles` for convenience, any other tool would suffice as long as the result is an array of strings, you may even specify the paths by hand.
 
-In every component that has a translatable template you now need to specify the public property `locale` in order for the `ng-switch` to fire:
+Include the module into your applications main module:
 ```typescript
-@Component({
+import { NgI18nAotModule } from '@actra-development-oss/ng-i18n-aot-module';
+
+// ...
+
+@NgModule({
+    // ...
+    imports:      [
+        NgI18nAotModule.forRoot(),
+        // ...
+    ],
     // ...
 })
-export class MyComponent {
-    public locale: string = 'en_US';
+@Injectable()
+export class ApplicationModule {
+    // ...
 }
 ```
 
-To actually switch the locale, the component has to be notified of changes to the locale, e.g. by subscribing to a service, using a redux-store or whatever you like.  
-In my test-project I used redux with it's `@select()`-syntax and subscribed my components like so:
+Include the module into a) every module that uses translations *OR* b) once into your shared module that is included in all your modules.  
+Code shows option b), include in shared module:
 ```typescript
-@Component({
+import { NgI18nAotModule } from '@actra-development-oss/ng-i18n-aot-module';
+
+// ...
+
+@NgModule({
+    // ...
+    exports:      [
+        NgI18nAotModule,
+        // ...
+    ],
     // ...
 })
-export class MyComponent {
-    @select(['application', 'locale']) public locale$: Observable<string>;
+export class SharedModule {
 }
 ```
 
-As this now is an observable the loader-config needs to be sligthly adjusted so the `localeBinding` is recognized as async:
+To actually change the displayed locale use the service:
 ```typescript
-// ...
-    use: [
-        {
-            loader:  '@actra-development-oss/ng-i18n-aot-loader',
-            options: {
-                localeBinding: 'locale$ | async'
-            }
-        }
-    ]
-// ...
+import { NgI18nAotService } from '@actra-development-oss/ng-i18n-aot-module';
+
+@Component({
+    // ...
+    template: `
+        <button (click)="setLocale('en_US')">en_US</button> <button (click)="setLocale('de_DE')">de_DE</button><br />
+        Current locale: {{locale}}
+    `
+})
+export class MyComponent {
+    public locale: string;
+    
+    
+    constructor(protected ngI18nAotService: NgI18nAotService) {
+        this.locale = this.ngI18nAotService.getLocale();
+    }
+    
+    
+    public setLocale(locale: string): void {
+        this.locale = locale;
+        
+        this.ngI18nAotService.setLocale(this.locale);
+    }
+}
 ```
 
 
@@ -150,12 +179,5 @@ As this now is an observable the loader-config needs to be sligthly adjusted so 
 | Option            | Type     | Explanation |
 |-------------------|----------|-------------------------------------------------------------|
 | enabled           | boolean  | Whether the loader should modify the HTML or not.           |
-| localeBinding     | string   | Name of your component's property that holds the locale.<br />When using an observable don't forget to specify as such:<br />e.g. `locale$ \| async` |
 | translationFiles  | string[] | Paths of all your locale files to render.                   |
 | translationFormat | string   | Format of the translation files as used by angular:<br />xlf / xliff, xlf2 / xliff2, xmb, xtb |
-
-
-## Known caveats
-As `ng-switch` on the used `ng-containers` removes the dom entirely, angular may (think to) detect expression changes after the view has been checked.  
-This simply is a timing problem, I didn't find a solid workaround for this until now.  
-As those console messages are disabled for production builds by angular just forget about them.
