@@ -10,7 +10,7 @@ The loader modifies the application's HTML before it get's passed to angular's c
 If you're using `ng-content` or `router-outlet` inside your templates those get filtered out and replaced by a template reference injected to the end of the HTML because they may only occur once per
 document but would occur multiple times (your number of locales + 1) after modification.  
 All bindings and contexts stay intact and there's no need to do special magic to your code.  
-To actually change the displayed locale, a service is provided (by `@actra-development-oss/ng-i18n-aot-module`) that you may include in your component(s) to call `setLocale('new_locale')` on it.
+To actually change the displayed locale, a service is provided (by [@actra-development-oss/ng-i18n-aot-module](https://github.com/actra-development-oss/ng-i18n-aot-module)) that you may include in your component(s) to call `setLocale('new_locale')` on it.
 
 
 ## JIT and AOT
