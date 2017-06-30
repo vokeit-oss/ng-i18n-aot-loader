@@ -70,7 +70,7 @@
         "build:copy-5":    "yarn run ncp -- ./README.md ./dist/README.md",
         
         
-        "publishToNpmjs": "yarn run build && yarn publish ./dist --access public --registry https://registry.npmjs.com/",
+        "publishToNpmjs": "yarn run build && npm publish ./dist --access public --registry https://registry.npmjs.com/",
         
         
         "mkdirp":    "./node_modules/.bin/mkdirp",
