@@ -1,0 +1,43 @@
+{
+    "name":        "@actra-development-oss/ng-i18n-aot-loader",
+    "description": "angular 4 i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
+    "keywords":    [
+        "angular",
+        "aot",
+        "i18n",
+        "webpack"
+    ],
+    "license":     "MIT",
+    "version":     "1.0.2",
+    "author":      {
+        "name":  "Gabriel Schuster - actra.development",
+        "email": "opensource@actra.de",
+        "url":   "http://www.actra.de/velopment"
+    },
+    "homepage":    "https://github.com/actra-development-oss/ng-i18n-aot-loader#readme",
+    "repository":  {
+        "type": "git",
+        "url":  "git@github.com:actra-development-oss/ng-i18n-aot-loader.git"
+    },
+    "bugs":        {
+        "url":   "https://github.com/actra-development-oss/ng-i18n-aot-loader/issues",
+        "email": "opensource@actra.de"
+    },
+    "dependencies":     {
+        "loader-utils":      "1.1.0",
+        "object-assign":     "4.1.1",
+        "fs":                "0.0.2",
+        "@angular/core":     "4.2.5",
+        "@angular/compiler": "4.2.5"
+    },
+    "files":       [
+        "dist/index.js",
+        "dist/index.umd.js",
+        "dist/index.umd.min.js",
+        "dist/CHANGELOG.md",
+        "dist/LICENSE",
+        "dist/package.json",
+        "dist/README.md"
+    ],
+    "main":        "index.js"
+}
