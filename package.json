@@ -8,7 +8,7 @@
         "webpack"
     ],
     "license":          "MIT",
-    "version":          "1.0.0",
+    "version":          "1.0.1",
     "author":           {
         "name":  "Gabriel Schuster - actra.development",
         "email": "opensource@actra.de",
@@ -28,11 +28,11 @@
         "access":   "public"
     },
     "dependencies":     {
-        "loader-utils":      "^1.0.2",
-        "object-assign":     "^4.1.0",
-        "fs":                "^0.0.2",
-        "@angular/core":     "^4.1.0",
-        "@angular/compiler": "^4.1.0"
+        "loader-utils":      "1.1.0",
+        "object-assign":     "4.1.1",
+        "fs":                "0.0.2",
+        "@angular/core":     "4.2.5",
+        "@angular/compiler": "4.2.5"
     },
     "devDependencies":  {
         "mkdirp":      "0.5.1",
@@ -42,9 +42,6 @@
         "rollup":      "0.43.0",
         "uglify-js":   "3.0.21",
         "yarn":        "0.24.6"
-    },
-    "peerDependencies": {
-        "@angular/core": "^4.1.0"
     },
     "files":            [
         "dist/index.js",
@@ -63,11 +60,11 @@
         "build":           "yarn run run-s -- build:clean build:copy",
         "build:clean":     "yarn run rimraf -- ./dist && yarn run mkdirp -- ./dist",
         "build:copy":      "yarn run run-s -- build:copy-1 build:copy-2 build:copy-3 build:copy-4 build:copy-5",
-        "build:copy-1":    "yarn run ncp -- ./package.json ./dist/package.json",
-        "build:copy-2":    "yarn run ncp -- ./CHANGELOG.md ./dist/CHANGELOG.md",
-        "build:copy-3":    "yarn run ncp -- ./index.js ./dist/index.js",
-        "build:copy-4":    "yarn run ncp -- ./LICENSE ./dist/LICENSE",
-        "build:copy-5":    "yarn run ncp -- ./README.md ./dist/README.md",
+        "build:copy-1":    "yarn run ncp -- ./src/package.json ./dist/package.json",
+        "build:copy-2":    "yarn run ncp -- ./src/CHANGELOG.md ./dist/CHANGELOG.md",
+        "build:copy-3":    "yarn run ncp -- ./src/index.js ./dist/index.js",
+        "build:copy-4":    "yarn run ncp -- ./src/LICENSE ./dist/LICENSE",
+        "build:copy-5":    "yarn run ncp -- ./src/README.md ./dist/README.md",
         
         
         "publishToNpmjs": "yarn run build && npm publish ./dist --access public --registry https://registry.npmjs.com/",
