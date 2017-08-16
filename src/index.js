@@ -30,6 +30,7 @@ const fs          = require('fs');
 const core        = require('@angular/core');
 const compiler    = require('@angular/compiler');
 const htmlParser  = new compiler.HtmlParser();
+const escape      = require('escape-html');
 
 
 /**
@@ -117,7 +118,7 @@ class Visitor extends compiler.RecursiveVisitor {
     visitAttribute(ast, context) {
         let value = ast.hasOwnProperty('children') ? ast.children.map((child) => child.visit(this)).join('') : ast.value;
         
-        return ast.name.match(/^i18n(-.+)?$/) ? '' : ast.name + (value.length ? '="' + value + '"' : '');
+        return ast.name.match(/^i18n(-.+)?$/) ? '' : ast.name + (value.length ? '="' + escape(value) + '"' : '');
     }
     
     
