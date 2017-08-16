@@ -32,7 +32,8 @@
         "object-assign":     "4.1.1",
         "fs":                "0.0.2",
         "@angular/core":     "4.2.5",
-        "@angular/compiler": "4.2.5"
+        "@angular/compiler": "4.2.5",
+        "escape-html":       "1.0.3"
     },
     "devDependencies":  {
         "mkdirp":      "0.5.1",
