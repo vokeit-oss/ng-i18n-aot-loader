@@ -22,6 +22,11 @@ Depending on your dev setup webpack may do the HTML rebuild automatically for yo
 If not you can trigger a HTML rebuild for individual files simply by updating the desired file, e.g. adding a new-line, and saving it for webpack to catch the change.
 
 
+## Demo
+A simple demo is hosted in a separate repository: https://github.com/actra-development-oss/ng-i18n-aot-demo  
+Demo page: https://actra-development-oss.github.io/ng-i18n-aot-demo/
+
+
 ## Example
 Given this (partial) source:
 ```html
