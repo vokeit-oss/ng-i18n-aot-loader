@@ -23,8 +23,9 @@ If not you can trigger a HTML rebuild for individual files simply by updating th
 
 
 ## Demo
-A simple demo is hosted in a separate repository: https://github.com/actra-development-oss/ng-i18n-aot-demo
+A simple demo is hosted in a separate repository: https://github.com/actra-development-oss/ng-i18n-aot-demo  
 Demo page: https://actra-development-oss.github.io/ng-i18n-aot-demo/
+
 
 ## Example
 Given this (partial) source:
