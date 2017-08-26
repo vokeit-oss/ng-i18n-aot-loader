@@ -191,7 +191,7 @@ module.exports = function(content) {
     let containers = '';
     
     // Check if there are i18n-tags inside the content
-    let messageBundle = new compiler.MessageBundle(new compiler.I18NHtmlParser(htmlParser), [], {});
+    let messageBundle = new compiler.MessageBundle(htmlParser, [], {});
     messageBundle.updateFromTemplate(content, this.resourcePath, compiler.InterpolationConfig.fromArray(null));
     
     // No messages - no i18n-tags => no translations required
