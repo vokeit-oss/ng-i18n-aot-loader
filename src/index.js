@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2017 actra.development, Korntal-Muenchingen
+ * Copyright (c) 2017 - 2018 actra.development, Korntal-Muenchingen
  * Parts of the code: Copyright (c) 2014-2017 Google, Inc. http://angular.io
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy

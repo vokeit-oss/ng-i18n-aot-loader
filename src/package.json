@@ -1,37 +1,37 @@
 {
-    "name":        "@actra-development-oss/ng-i18n-aot-loader",
-    "description": "angular 4 / 5 i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
-    "keywords":    [
+    "name":         "@actra-development-oss/ng-i18n-aot-loader",
+    "description":  "angular 6 i18n pre-loader for webpack 4 to support AOT with dynamic locale changes",
+    "keywords":     [
         "angular",
         "aot",
         "i18n",
         "webpack"
     ],
-    "license":     "MIT",
-    "version":     "1.0.6",
-    "author":      {
+    "license":      "MIT",
+    "version":      "2.0.0",
+    "author":       {
         "name":  "Gabriel Schuster - actra.development",
         "email": "opensource@actra.de",
         "url":   "http://www.actra.de/velopment"
     },
-    "homepage":    "https://github.com/actra-development-oss/ng-i18n-aot-loader#readme",
-    "repository":  {
+    "homepage":     "https://github.com/actra-development-oss/ng-i18n-aot-loader#readme",
+    "repository":   {
         "type": "git",
         "url":  "git@github.com:actra-development-oss/ng-i18n-aot-loader.git"
     },
-    "bugs":        {
+    "bugs":         {
         "url":   "https://github.com/actra-development-oss/ng-i18n-aot-loader/issues",
         "email": "opensource@actra.de"
     },
-    "dependencies":     {
+    "dependencies": {
         "loader-utils":      "1.1.0",
         "object-assign":     "4.1.1",
         "fs":                "0.0.2",
-        "@angular/core":     "^4.1.0 || 5.0.0-beta.0 - 5.0.0-beta.3",
-        "@angular/compiler": "^4.1.0 || 5.0.0-beta.0 - 5.0.0-beta.3",
+        "@angular/core":     "^6.0.2",
+        "@angular/compiler": "^6.0.2",
         "escape-html":       "1.0.3"
     },
-    "files":       [
+    "files":        [
         "dist/index.js",
         "dist/index.umd.js",
         "dist/index.umd.min.js",
@@ -40,5 +40,5 @@
         "dist/package.json",
         "dist/README.md"
     ],
-    "main":        "index.js"
+    "main":         "index.js"
 }

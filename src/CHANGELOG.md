@@ -11,3 +11,7 @@ This release is incompatible with previous versions as the way the loader works 
 
 ## Version 1.0.6
 - Fixed using wrong HTML parser resulting in non-translated HTML
+
+
+## Version 2.0.0
+- Updated dependencies for angular 6

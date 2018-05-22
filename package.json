@@ -1,6 +1,6 @@
 {
     "name":             "@actra-development-oss/ng-i18n-aot-loader",
-    "description":      "angular 4 / 5 i18n pre-loader for webpack 2 to support AOT with dynamic locale changes",
+    "description":      "angular 6 i18n pre-loader for webpack 4 to support AOT with dynamic locale changes",
     "keywords":         [
         "angular",
         "aot",
@@ -8,7 +8,7 @@
         "webpack"
     ],
     "license":          "MIT",
-    "version":          "1.0.6",
+    "version":          "2.0.0",
     "author":           {
         "name":  "Gabriel Schuster - actra.development",
         "email": "opensource@actra.de",
@@ -31,18 +31,18 @@
         "loader-utils":      "1.1.0",
         "object-assign":     "4.1.1",
         "fs":                "0.0.2",
-        "@angular/core":     "5.0.0-beta.3",
-        "@angular/compiler": "5.0.0-beta.3",
+        "@angular/core":     "6.0.2",
+        "@angular/compiler": "6.0.2",
         "escape-html":       "1.0.3"
     },
     "devDependencies":  {
         "mkdirp":      "0.5.1",
         "ncp":         "2.0.0",
-        "npm-run-all": "4.0.2",
-        "rimraf":      "2.6.1",
-        "rollup":      "0.43.0",
-        "uglify-js":   "3.0.21",
-        "yarn":        "0.27.5"
+        "npm-run-all": "4.1.3",
+        "rimraf":      "2.6.2",
+        "rollup":      "0.59.2",
+        "uglify-js":   "3.3.26",
+        "yarn":        "1.6.0"
     },
     "files":            [
         "dist/index.js",
@@ -55,28 +55,28 @@
     ],
     "main":             "index.js",
     "scripts":          {
-        "test":      "echo \"Error: no test specified\" && exit 1",
+        "test": "echo \"Error: no test specified\" && exit 1",
         
         
-        "build":           "yarn run run-s -- build:clean build:copy",
-        "build:clean":     "yarn run rimraf -- ./dist && yarn run mkdirp -- ./dist",
-        "build:copy":      "yarn run run-s -- build:copy-1 build:copy-2 build:copy-3 build:copy-4 build:copy-5",
-        "build:copy-1":    "yarn run ncp -- ./src/package.json ./dist/package.json",
-        "build:copy-2":    "yarn run ncp -- ./src/CHANGELOG.md ./dist/CHANGELOG.md",
-        "build:copy-3":    "yarn run ncp -- ./src/index.js ./dist/index.js",
-        "build:copy-4":    "yarn run ncp -- ./src/LICENSE ./dist/LICENSE",
-        "build:copy-5":    "yarn run ncp -- ./src/README.md ./dist/README.md",
+        "build":        "yarn run run-s build:clean build:copy",
+        "build:clean":  "yarn run rimraf ./dist && yarn run mkdirp -- ./dist",
+        "build:copy":   "yarn run run-s build:copy-1 build:copy-2 build:copy-3 build:copy-4 build:copy-5",
+        "build:copy-1": "yarn run ncp ./src/package.json ./dist/package.json",
+        "build:copy-2": "yarn run ncp ./src/CHANGELOG.md ./dist/CHANGELOG.md",
+        "build:copy-3": "yarn run ncp ./src/index.js ./dist/index.js",
+        "build:copy-4": "yarn run ncp ./src/LICENSE ./dist/LICENSE",
+        "build:copy-5": "yarn run ncp ./src/README.md ./dist/README.md",
         
         
         "publishToNpmjs": "yarn run build && npm publish ./dist --access public --registry https://registry.npmjs.com/",
         
         
-        "mkdirp":    "./node_modules/.bin/mkdirp",
-        "ncp":       "./node_modules/.bin/ncp",
-        "rimraf":    "./node_modules/.bin/rimraf",
-        "rollup":    "./node_modules/.bin/rollup",
-        "run-s":     "./node_modules/.bin/run-s",
-        "uglifyjs":  "./node_modules/.bin/uglifyjs",
-        "yarn":      "./node_modules/.bin/yarn"
+        "mkdirp":   "./node_modules/.bin/mkdirp",
+        "ncp":      "./node_modules/.bin/ncp",
+        "rimraf":   "./node_modules/.bin/rimraf",
+        "rollup":   "./node_modules/.bin/rollup",
+        "run-s":    "./node_modules/.bin/run-s",
+        "uglifyjs": "./node_modules/.bin/uglifyjs",
+        "yarn":     "./node_modules/.bin/yarn"
     }
 }
